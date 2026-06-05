@@ -1,38 +1,28 @@
-<!--
-  ╔═══════════════════════════════════════════════════════════════════╗
-  ║  SQPSBLOG — Page Header Code Injection                           ║
-  ║  Paste this entire block into:                                   ║
-  ║  Pages → [Blog Page] → ⚙ → Advanced → Header Code Injection     ║
-  ║                                                                   ║
-  ║  One copy per site. Edit the config values below.                ║
-  ║  pf-core.js is loaded automatically at the bottom.              ║
-  ╚═══════════════════════════════════════════════════════════════════╝
--->
 <script>
 window.SQPSBLOGConfig = {
 
-  // ── BLOG ─────────────────────────────────────────────────────────
+// ── BLOG ───────────────────────────────────
   blogUrl                  : "/blog",
   wordsPerMinute           : 200,
 
-  // ── LAYOUT ───────────────────────────────────────────────────────
-  //  defaultLayout: "grid" | "newsroom" | "mosaic"
+// ── LAYOUT ─────────────────────────────────
+//  defaultLayout: "grid" | "newsroom" | "mosaic"
   defaultLayout            : "grid",
   showLayoutToggle         : true,
-  gridColumns              : 2,
+  gridColumns              : 3,
   newsroomColumns          : 2,
   cardGap                  : 16,
 
-  // ── OVERLAY (newsroom hero + mosaic gradient, 0–100) ─────────────
+// ── OVERLAY (newsroom hero + mosaic, 0–100) ──
   imageOverlayOpacity      : 75,
 
-  // ── HERO ─────────────────────────────────────────────────────────
+// ── HERO ─────────────────────────────────────
   showHero                 : false,
   heroHeight               : 480,
   splitHeight              : 600,
   splitRatio               : "60/40",
 
-  // ── CARDS ────────────────────────────────────────────────────────
+// ── CARDS ────────────────────────────────────
   cardHeight               : 480,
   cardImageHeight          : 220,
   showExcerpt              : true,
@@ -43,13 +33,13 @@ window.SQPSBLOGConfig = {
   showReadTime             : true,
   hoverZoom                : 1.02,
   cardUseThemeBg           : true,
-  cardBg                   : "",            // used only when cardUseThemeBg: false
+  cardBg                   : "",
   cardBorderWidth          : 1,
   cardBorderColor          : "var(--tweak-form-block-field-border-color, #e5e5e5)",
 
-  // ── FILTER BAR ───────────────────────────────────────────────────
-  //  filterBarStyle: "option1" (individual pills) | "option2" (unified bar)
-  //  filterBarAlign: "left" | "center" | "right" | "full"
+// ── FILTER BAR ───────────────────────────────
+//  filterBarStyle: "option1" | "option2"
+//  filterBarAlign: "left" | "center" | "right" | "full"
   filterBarStyle           : "option2",
   filterBarAlign           : "full",
   showSearch               : true,
@@ -64,44 +54,40 @@ window.SQPSBLOGConfig = {
   showYears                : false,
   showSort                 : true,
 
-  // ── CUSTOM FILTER ORDER ──────────────────────────────────────────
-  //  List category/tag names to control their order in the dropdown.
-  //  Leave empty to sort alphabetically.
+// ── CUSTOM FILTER ORDER ──────────────────────
   customCategories         : [],
   customTags               : [],
 
-  // ── POST COUNT + ACTIVE FILTER CHIPS ────────────────────────────
+// ── POST COUNT + ACTIVE FILTER CHIPS ─────────
   showPostCount            : true,
   showActiveFilters        : true,
 
-  // ── LOAD MORE ────────────────────────────────────────────────────
-  //  loadMoreMode: "button" | "scroll"
+// ── LOAD MORE ────────────────────────────────
+//  loadMoreMode: "button" | "scroll"
   loadMoreMode             : "button",
   loadMoreText             : "Load more",
   loadingText              : "Loading posts…",
   batchSize                : 12,
 
-  // ── URL PARAMS ───────────────────────────────────────────────────
-  //  When true, active filters are written to the URL query string
-  //  so filtered views can be linked/shared.
+// ── URL PARAMS ───────────────────────────────
   enableUrlParams          : false,
 
-  // ── MOBILE ───────────────────────────────────────────────────────
+// ── MOBILE ───────────────────────────────────
   mobileFilterLabel        : "Filter",
 
-  // ── DATE FORMAT ──────────────────────────────────────────────────
-  //  dateDisplayFormat: "L" | "LL" | "LLLL" | "custom"
-  //  dateOrder: "MDY" | "DMY"
+// ── DATE FORMAT ──────────────────────────────
+//  dateDisplayFormat: "L" | "LL" | "LLLL" | "custom"
+//  dateOrder: "MDY" | "DMY"
   dateDisplayFormat        : "custom",
   dateDisplayCustomFormat  : "MMM D, YYYY",
   dateOrder                : "MDY",
 
-  // ── TEXT ─────────────────────────────────────────────────────────
+// ── TEXT ─────────────────────────────────────
   noResultsText            : "No posts match your filters.",
   ctaText                  : "Read more",
   ctaFollowSiteStyle       : true,
 
-  // ── LABELS ───────────────────────────────────────────────────────
+// ── LABELS ───────────────────────────────────
   labelAllCategories       : "All Categories",
   labelAllTags             : "All Tags",
   labelAllAuthors          : "All Authors",
@@ -115,49 +101,64 @@ window.SQPSBLOGConfig = {
   labelShowing             : "Showing",
   labelOf                  : "of",
 
-  // ════════════════════════════════════════════════════════════════
-  //  EXTENDED STYLING — all optional, remove or set null to use
-  //  the site's detected defaults.
-  // ════════════════════════════════════════════════════════════════
+// ═════════════════════════════════════════════
+//  EXTENDED STYLING — all optional
+//  Set null to use site defaults.
+// ═════════════════════════════════════════════
 
-  // ── BORDER RADIUS ────────────────────────────────────────────────
-  //  null  = auto-detect from the site's button styles
-  //  "0px" = sharp corners
-  //  "8px" = slightly rounded
-  //  "99px"= fully pill-shaped
+// ── BORDER RADIUS ────────────────────────────
+//  null = auto-detect from site button styles
+//  "0px" | "8px" | "99px"
   cardBorderRadius         : null,
 
-  // ── FONT SIZES ───────────────────────────────────────────────────
+// ── FONT SIZES ───────────────────────────────
   cardTitleSize            : null,      // "18px"
   cardHeroTitleSize        : null,      // "clamp(24px, 3vw, 40px)"
   cardExcerptSize          : null,      // "14px"
-  cardMetaSize             : null,      // "12px"  date / author / read time
+  cardMetaSize             : null,      // "12px"
   cardCtaSize              : null,      // "12px"
-  filterBarSize            : null,      // "13px"  dropdowns, search, sort
+  filterBarSize            : null,      // "13px"
 
-  // ── CARD TEXT COLORS ─────────────────────────────────────────────
+// ── CARD TEXT COLORS ─────────────────────────
   cardTitleColor           : null,      // "#111111"
   cardExcerptColor         : null,      // "#555555"
   cardMetaColor            : null,      // "#999999"
 
-  // ── CTA BUTTON ───────────────────────────────────────────────────
-  ctaBg                    : null,      // "rgba(0,0,0,0.08)"
+// ── CTA BUTTON ───────────────────────────────
+//  showCta: false hides the button entirely
+  showCta                  : true,
+  ctaBg                    : null,      // "#fec039"
   ctaBorder                : null,      // "rgba(0,0,0,0.2)"
   ctaColor                 : null,      // "#111111"
+  ctaPaddingX              : null,      // "14px"  left/right padding
+  ctaPaddingY              : null,      // "5px"   top/bottom padding
+//  ctaAlign: "left" | "center" | "right" | "full"
+  ctaAlign                 : null,
+//  ctaFontWeight: "400" | "500" | "600" | "700"
+  ctaFontWeight            : null,
+//  ctaTextTransform: "none" | "uppercase" | "lowercase" | "titlecase"
+  ctaTextTransform         : null,
 
-  // ── CATEGORY PILL ────────────────────────────────────────────────
-  categoryPillBg           : null,      // "rgba(255,255,255,0.92)"
+// ── CATEGORY PILL ────────────────────────────
+//  categoryPillCount: 1 | 2 | 3 | "all"
+  categoryPillCount        : 1,
+  categoryPillBg           : null,      // "#fec039"
   categoryPillColor        : null,      // "#111111"
+  categoryPillPaddingX     : null,      // "10px"
+  categoryPillPaddingY     : null,      // "4px"
+//  categoryPillFontWeight: "400" | "500" | "600" | "700"
+  categoryPillFontWeight   : null,
+//  categoryPillTextTransform: "none" | "uppercase" | "lowercase" | "titlecase"
+  categoryPillTextTransform: null,
 
-  // ── FILTER BAR ───────────────────────────────────────────────────
+// ── FILTER BAR ───────────────────────────────
   filterBarBg              : null,      // "#ffffff"
   filterBarBorder          : null,      // "#e5e5e5"
 
-  // ── CARD BODY PADDING ────────────────────────────────────────────
+// ── CARD BODY PADDING ────────────────────────
   cardBodyPadding          : null,      // "18px 22px"
 
 };
 </script>
 
-<!-- Load engine — do not edit this line -->
-<script src="https://raw.githubusercontent.com/ashlyleh/ss-assets/main/pf-core.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/ashlyleh/ss-assets@main/pf-core.js?v=3" defer></script>
