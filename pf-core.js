@@ -58,8 +58,10 @@
   if (val("categoryPillFontWeight"))  vars.push("--sqpsblog-pill-weight: "     + val("categoryPillFontWeight"));
 
   // Filter bar
-  if (val("filterBarBg"))        vars.push("--sqpsblog-bar-bg: "          + val("filterBarBg"));
-  if (val("filterBarBorder"))    vars.push("--sqpsblog-bar-border: "      + val("filterBarBorder"));
+  if (val("filterBarBg"))           vars.push("--sqpsblog-bar-bg: "           + val("filterBarBg"));
+  if (val("filterBarBorder"))       vars.push("--sqpsblog-bar-border: "       + val("filterBarBorder"));
+  if (val("filterBarTextColor"))    vars.push("--sqpsblog-bar-text-color: "   + val("filterBarTextColor"));
+  if (val("filterBarPlaceholderColor")) vars.push("--sqpsblog-placeholder-color: " + val("filterBarPlaceholderColor"));
 
   // Card body padding
   if (val("cardBodyPadding"))    vars.push("--sqpsblog-body-pad: "        + val("cardBodyPadding"));
@@ -206,6 +208,36 @@
         ".sqpsblog-card-footer { border-top-color: var(--sqpsblog-bar-border) !important; }"
       );
     }
+  }
+
+  // Filter bar text color — search input, dropdowns, sort, labels
+  if (val("filterBarTextColor")) {
+    overrides.push(
+      ".sqpsblog-search      { color: var(--sqpsblog-bar-text-color) !important; }",
+      ".sqpsblog-dd-label    { color: var(--sqpsblog-bar-text-color) !important; }",
+      ".sqpsblog-dd-option   { color: var(--sqpsblog-bar-text-color) !important; }",
+      ".sqpsblog-sort        { color: var(--sqpsblog-bar-text-color) !important; }",
+      ".sqpsblog-clear       { color: var(--sqpsblog-bar-text-color) !important; }"
+    );
+  }
+
+  // Filter bar placeholder color (search "Search posts…" text)
+  if (val("filterBarPlaceholderColor")) {
+    overrides.push(
+      ".sqpsblog-search::placeholder { color: var(--sqpsblog-placeholder-color) !important; opacity: 1 !important; }"
+    );
+  }
+
+  // Filter bar text transform — affects labels, dropdown text, sort, search placeholder
+  if (val("filterBarTextTransform")) {
+    var ftx = cfg["filterBarTextTransform"];
+    var ftxVal = ftx === "titlecase" ? "capitalize" : ftx;
+    overrides.push(
+      ".sqpsblog-search::placeholder { text-transform: " + ftxVal + " !important; }",
+      ".sqpsblog-dd-label  { text-transform: " + ftxVal + " !important; }",
+      ".sqpsblog-sort      { text-transform: " + ftxVal + " !important; }",
+      ".sqpsblog-clear     { text-transform: " + ftxVal + " !important; }"
+    );
   }
 
   // Card body padding
