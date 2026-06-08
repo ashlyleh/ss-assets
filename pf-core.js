@@ -215,6 +215,14 @@
     if (val("filterBarBg"))     barRules.push("background: var(--sqpsblog-bar-bg)");
     if (val("filterBarBorder")) barRules.push("border-color: var(--sqpsblog-bar-border)");
     overrides.push(".sqpsblog-filter-bar { " + barRules.join("; ") + " !important; }");
+    // Mobile dropdown panels + accordion headers share the bar background
+    if (val("filterBarBg")) {
+      overrides.push(
+        ".sqpsblog-mob-acc-header { background: var(--sqpsblog-bar-bg) !important; }",
+        ".sqpsblog-mob-acc-opts   { background: var(--sqpsblog-bar-bg) !important; }",
+        ".sqpsblog-dd-panel       { background: var(--sqpsblog-bar-bg) !important; }"
+      );
+    }
     if (val("filterBarBorder")) {
       overrides.push(
         ".sqpsblog-filter-bar[data-style=\"option2\"] .sqpsblog-filter-left { border-right-color: var(--sqpsblog-bar-border) !important; }",
