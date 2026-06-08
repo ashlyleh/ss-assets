@@ -56,6 +56,9 @@
   if (val("categoryPillPaddingX"))    vars.push("--sqpsblog-pill-px: "         + val("categoryPillPaddingX"));
   if (val("categoryPillPaddingY"))    vars.push("--sqpsblog-pill-py: "         + val("categoryPillPaddingY"));
   if (val("categoryPillFontWeight"))  vars.push("--sqpsblog-pill-weight: "     + val("categoryPillFontWeight"));
+  if (val("categoryPillRadius"))      vars.push("--sqpsblog-pill-radius: "     + val("categoryPillRadius"));
+  if (val("categoryPillBorderWidth")) vars.push("--sqpsblog-pill-border-w: "   + val("categoryPillBorderWidth"));
+  if (val("categoryPillBorderColor")) vars.push("--sqpsblog-pill-border-c: "   + val("categoryPillBorderColor"));
 
   // Filter bar
   if (val("filterBarBg"))           vars.push("--sqpsblog-bar-bg: "           + val("filterBarBg"));
@@ -172,6 +175,12 @@
       var ppx = val("categoryPillPaddingX") || "10px";
       pillRules.push("padding: " + ppy + " " + ppx);
     }
+    if (val("categoryPillRadius")) pillRules.push("border-radius: var(--sqpsblog-pill-radius)");
+    if (val("categoryPillBorderWidth") || val("categoryPillBorderColor")) {
+      var pbw = val("categoryPillBorderWidth") || "1px";
+      var pbc = val("categoryPillBorderColor") || "transparent";
+      pillRules.push("border: " + pbw + " solid " + pbc);
+    }
     if (val("categoryPillTextTransform")) {
       var ptx = cfg["categoryPillTextTransform"];
       pillRules.push("text-transform: " + (ptx === "titlecase" ? "capitalize" : ptx));
@@ -181,11 +190,22 @@
     overrides.push(".sqpsblog-card-cat-pill--mosaic { " + pillRules.join("; ") + " !important; }");
   }
 
-  // Multiple pills layout — add gap between them
-  if (cfg["categoryPillCount"] && cfg["categoryPillCount"] !== 1) {
+  // Pill container layout + position (applies whenever count > 1 OR position/layout set)
+  var multiPill = cfg["categoryPillCount"] && cfg["categoryPillCount"] !== 1;
+  if (multiPill || val("categoryPillPosition") || val("categoryPillLayout")) {
+    var pos = cfg["categoryPillPosition"] || "top-right";
+    var layout = cfg["categoryPillLayout"] || "row";
+    var vert = pos.indexOf("top") === 0 ? "flex-start" : "flex-end";
+    var horiz = pos.indexOf("left") !== -1 ? "flex-start" : "flex-end";
+    var dir = layout === "stack" ? "column" : "row";
+    var gap = val("categoryPillGap") || "6px";
+    // Inset padding so pills don't touch the card edges
+    var inset = val("categoryPillInset") || "12px";
     overrides.push(
-      ".sqpsblog-card-img { display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-start; gap: 4px; padding: 12px 12px 0 0 !important; }",
-      ".sqpsblog-card-cat-pill { position: static !important; }"
+      ".sqpsblog-card-img { display: flex !important; flex-direction: " + dir + " !important; flex-wrap: " + (layout === "stack" ? "nowrap" : "wrap") + " !important; align-items: " + horiz + " !important; justify-content: " + vert + " !important; gap: " + gap + " !important; padding: " + inset + " !important; box-sizing: border-box; }",
+      // Image must not participate in flex layout — pin it behind the pills
+      ".sqpsblog-card-img img { position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; z-index: 0; }",
+      ".sqpsblog-card-cat-pill { position: relative !important; top: auto !important; right: auto !important; z-index: 2; }"
     );
   }
 
