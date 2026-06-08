@@ -31,6 +31,13 @@
 
   // Font sizes
   if (val("cardTitleSize"))      vars.push("--sqpsblog-title-size: "      + val("cardTitleSize"));
+  if (val("cardTitleFont")) {
+    var tf = cfg["cardTitleFont"];
+    var fontVal = tf === "heading" ? "var(--heading-font-font-family, var(--headingFontFamily, inherit))"
+                : tf === "body"    ? "var(--body-font-font-family, var(--bodyFontFamily, inherit))"
+                : tf;
+    vars.push("--sqpsblog-title-font: " + fontVal);
+  }
   if (val("cardHeroTitleSize"))  vars.push("--sqpsblog-hero-title-size: " + val("cardHeroTitleSize"));
   if (val("cardExcerptSize"))    vars.push("--sqpsblog-excerpt-size: "    + val("cardExcerptSize"));
   if (val("cardMetaSize"))       vars.push("--sqpsblog-meta-size: "       + val("cardMetaSize"));
@@ -41,6 +48,14 @@
   if (val("cardTitleColor"))     vars.push("--sqpsblog-title-color: "     + val("cardTitleColor"));
   if (val("cardExcerptColor"))   vars.push("--sqpsblog-excerpt-color: "   + val("cardExcerptColor"));
   if (val("cardMetaColor"))      vars.push("--sqpsblog-meta-color: "      + val("cardMetaColor"));
+
+  // Individual meta item styling
+  if (val("readTimeColor"))     vars.push("--sqpsblog-read-color: "      + val("readTimeColor"));
+  if (val("readTimeSize"))      vars.push("--sqpsblog-read-size: "       + val("readTimeSize"));
+  if (val("authorColor"))       vars.push("--sqpsblog-author-color: "    + val("authorColor"));
+  if (val("authorSize"))        vars.push("--sqpsblog-author-size: "     + val("authorSize"));
+  if (val("dateColor"))         vars.push("--sqpsblog-date-color: "      + val("dateColor"));
+  if (val("dateSize"))          vars.push("--sqpsblog-date-size: "       + val("dateSize"));
 
   // CTA button
   if (val("ctaBg"))              vars.push("--sqpsblog-cta-bg: "          + val("ctaBg"));
@@ -73,9 +88,12 @@
   var overrides = [];
 
   // Font sizes
-  if (val("cardTitleSize")) {
+  if (val("cardTitleSize") || val("cardTitleFont")) {
+    var titleRules = [];
+    if (val("cardTitleSize")) titleRules.push("font-size: var(--sqpsblog-title-size)");
+    if (val("cardTitleFont")) titleRules.push("font-family: var(--sqpsblog-title-font)");
     overrides.push(
-      ".sqpsblog-card-title { font-size: var(--sqpsblog-title-size) !important; }",
+      ".sqpsblog-card-title { " + titleRules.join("; ") + " !important; }",
       "[data-layout=\"mosaic\"] .sqpsblog-card-title { font-size: var(--sqpsblog-title-size) !important; }"
     );
   }
@@ -118,6 +136,60 @@
       ".sqpsblog-card-date   { color: var(--sqpsblog-meta-color) !important; }",
       ".sqpsblog-card-author { color: var(--sqpsblog-meta-color) !important; }"
     );
+  }
+
+  // Individual meta overrides (these override cardMetaColor/cardMetaSize)
+  if (val("readTimeColor")) overrides.push(".sqpsblog-card-read   { color: var(--sqpsblog-read-color) !important; }");
+  if (val("readTimeSize"))  overrides.push(".sqpsblog-card-read   { font-size: var(--sqpsblog-read-size) !important; }");
+  if (val("authorColor"))   overrides.push(".sqpsblog-card-author { color: var(--sqpsblog-author-color) !important; }");
+  if (val("authorSize"))    overrides.push(".sqpsblog-card-author { font-size: var(--sqpsblog-author-size) !important; }");
+  if (val("dateColor"))     overrides.push(".sqpsblog-card-date   { color: var(--sqpsblog-date-color) !important; }");
+  if (val("dateSize"))      overrides.push(".sqpsblog-card-date   { font-size: var(--sqpsblog-date-size) !important; }");
+
+  // Meta positioning — each item can sit at a corner of the card body
+  // Positions: "top-left" | "top-right" | "bottom-left" | "bottom-right"
+  var metaPositions = {
+    readTime: cfg["readTimePosition"] || null,
+    author:   cfg["authorPosition"]   || null,
+    date:     cfg["datePosition"]     || null
+  };
+  var anyMetaPos = metaPositions.readTime || metaPositions.author || metaPositions.date;
+  if (anyMetaPos) {
+    // Card body needs relative positioning for absolute children
+    overrides.push(".sqpsblog-card-body { position: relative !important; }");
+    // Hide empty containers if their children are repositioned
+    if (metaPositions.readTime) {
+      overrides.push(".sqpsblog-card-meta { display: none !important; }");
+    }
+    var footerMoved = metaPositions.author && metaPositions.date;
+    if (footerMoved) {
+      overrides.push(".sqpsblog-card-footer { display: none !important; }");
+    }
+
+    var posMap = {
+      "top-left":     "top: 0; left: 0;",
+      "top-right":    "top: 0; right: 0;",
+      "bottom-left":  "bottom: 0; left: 0;",
+      "bottom-right": "bottom: 0; right: 0;"
+    };
+    var selMap = {
+      readTime: ".sqpsblog-card-read",
+      author:   ".sqpsblog-card-author",
+      date:     ".sqpsblog-card-date"
+    };
+    for (var mk in metaPositions) {
+      var mp = metaPositions[mk];
+      if (mp && posMap[mp]) {
+        var needsBottom = mp.indexOf("bottom") === 0;
+        overrides.push(
+          selMap[mk] + " { position: absolute !important; " + posMap[mp] + " margin: 0 !important; padding: 4px 0 !important; z-index: 2; }"
+        );
+        // If placing at bottom, add padding to card-body so content doesn't overlap
+        if (needsBottom) {
+          overrides.push(".sqpsblog-card-bottom { padding-bottom: 28px !important; }");
+        }
+      }
+    }
   }
 
   // CTA button
@@ -203,9 +275,9 @@
     var inset = val("categoryPillInset") || "12px";
     overrides.push(
       ".sqpsblog-card-img { display: flex !important; flex-direction: " + dir + " !important; flex-wrap: " + (layout === "stack" ? "nowrap" : "wrap") + " !important; align-items: " + horiz + " !important; justify-content: " + vert + " !important; gap: " + gap + " !important; padding: " + inset + " !important; box-sizing: border-box; }",
-      // Image must not participate in flex layout — pin it behind the pills
       ".sqpsblog-card-img img { position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; z-index: 0; }",
-      ".sqpsblog-card-cat-pill { position: relative !important; top: auto !important; right: auto !important; z-index: 2; }"
+      ".sqpsblog-card-img .sqpsblog-card-cat-pill { position: relative !important; top: auto !important; right: auto !important; z-index: 2; }",
+      "[data-layout=\"mosaic\"] .sqpsblog-card-cat-pill { position: absolute !important; width: auto !important; max-width: calc(100% - 24px); }"
     );
   }
 
