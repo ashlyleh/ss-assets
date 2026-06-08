@@ -144,12 +144,21 @@ window.SQPSBLOGConfig = {
   categoryPillCount        : 1,
   categoryPillBg           : null,      // "#fec039"
   categoryPillColor        : null,      // "#111111"
-  categoryPillPaddingX     : null,      // "10px"
-  categoryPillPaddingY     : null,      // "4px"
+  categoryPillPaddingX     : null,      // "10px"  text padding L/R inside pill
+  categoryPillPaddingY     : null,      // "4px"   text padding T/B inside pill
 //  categoryPillFontWeight: "400" | "500" | "600" | "700"
   categoryPillFontWeight   : null,
 //  categoryPillTextTransform: "none" | "uppercase" | "lowercase" | "titlecase"
   categoryPillTextTransform: null,
+//  categoryPillLayout: "row" (single line) | "stack" (vertical)
+  categoryPillLayout       : "row",
+//  categoryPillPosition: "top-left" | "top-right" | "bottom-left" | "bottom-right"
+  categoryPillPosition     : "top-right",
+  categoryPillInset        : null,      // "12px"  gap from card edges
+  categoryPillGap          : null,      // "6px"   gap between pills
+  categoryPillRadius       : null,      // "99px"  pill corner radius
+  categoryPillBorderWidth  : null,      // "1px"
+  categoryPillBorderColor  : null,      // "#171717"
 
 // ── FILTER BAR STYLING ───────────────────────
   filterBarBg              : null,      // "#ffffff"
