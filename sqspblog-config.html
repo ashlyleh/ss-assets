@@ -107,53 +107,63 @@ window.SQPSBLOGConfig = {
 // ═════════════════════════════════════════════
 
 // ── BORDER RADIUS ────────────────────────────
-//  null = auto-detect from site button styles
-//  "0px" | "8px" | "99px"
-  cardBorderRadius         : null,
+  cardBorderRadius         : null,      // "0px" | "8px" | "99px"
 
-// ── FONT SIZES ───────────────────────────────
+// ── CARD TITLE ───────────────────────────────
+//  cardTitleFont: "heading" (site heading font) | "body" (site body font) | custom CSS font string
+  cardTitleFont            : null,
   cardTitleSize            : null,      // "18px"
   cardHeroTitleSize        : null,      // "clamp(24px, 3vw, 40px)"
-  cardExcerptSize          : null,      // "14px"
-  cardMetaSize             : null,      // "12px"
-  cardCtaSize              : null,      // "12px"
-  filterBarSize            : null,      // "13px"
-
-// ── CARD TEXT COLORS ─────────────────────────
   cardTitleColor           : null,      // "#111111"
+
+// ── EXCERPT ──────────────────────────────────
+  cardExcerptSize          : null,      // "14px"
   cardExcerptColor         : null,      // "#555555"
+
+// ── META (shared defaults — individual overrides below) ──
+  cardMetaSize             : null,      // "12px"
   cardMetaColor            : null,      // "#999999"
 
+// ── READ TIME (overrides meta defaults) ──────
+  readTimeColor            : null,      // "#999999"
+  readTimeSize             : null,      // "12px"
+//  readTimePosition: "top-left" | "top-right" | "bottom-left" | "bottom-right"
+  readTimePosition         : null,
+
+// ── AUTHOR (overrides meta defaults) ─────────
+  authorColor              : null,      // "#555555"
+  authorSize               : null,      // "12px"
+//  authorPosition: "top-left" | "top-right" | "bottom-left" | "bottom-right"
+  authorPosition           : null,
+
+// ── DATE (overrides meta defaults) ───────────
+  dateColor                : null,      // "#999999"
+  dateSize                 : null,      // "12px"
+//  datePosition: "top-left" | "top-right" | "bottom-left" | "bottom-right"
+  datePosition             : null,
+
 // ── CTA BUTTON ───────────────────────────────
-//  showCta: false hides the button entirely
   showCta                  : true,
   ctaBg                    : null,      // "#fec039"
   ctaBorder                : null,      // "rgba(0,0,0,0.2)"
   ctaColor                 : null,      // "#111111"
   ctaPaddingX              : null,      // "14px"
   ctaPaddingY              : null,      // "5px"
-//  ctaAlign: "left" | "center" | "right" | "full"
-  ctaAlign                 : null,
-//  ctaFontWeight: "400" | "500" | "600" | "700"
-  ctaFontWeight            : null,
-//  ctaTextTransform: "none" | "uppercase" | "lowercase" | "titlecase"
-  ctaTextTransform         : null,
+  ctaAlign                 : null,      // "left" | "center" | "right" | "full"
+  ctaFontWeight            : null,      // "400" | "500" | "600" | "700"
+  ctaTextTransform         : null,      // "none" | "uppercase" | "lowercase" | "titlecase"
+  cardCtaSize              : null,      // "12px"
 
 // ── CATEGORY PILL ────────────────────────────
-//  categoryPillCount: 1 | 2 | 3 | "all"
-  categoryPillCount        : 1,
+  categoryPillCount        : 1,         // 1 | 2 | 3 | "all"
   categoryPillBg           : null,      // "#fec039"
   categoryPillColor        : null,      // "#111111"
-  categoryPillPaddingX     : null,      // "10px"  text padding L/R inside pill
-  categoryPillPaddingY     : null,      // "4px"   text padding T/B inside pill
-//  categoryPillFontWeight: "400" | "500" | "600" | "700"
-  categoryPillFontWeight   : null,
-//  categoryPillTextTransform: "none" | "uppercase" | "lowercase" | "titlecase"
-  categoryPillTextTransform: null,
-//  categoryPillLayout: "row" (single line) | "stack" (vertical)
-  categoryPillLayout       : "row",
-//  categoryPillPosition: "top-left" | "top-right" | "bottom-left" | "bottom-right"
-  categoryPillPosition     : "top-right",
+  categoryPillPaddingX     : null,      // "10px"
+  categoryPillPaddingY     : null,      // "4px"
+  categoryPillFontWeight   : null,      // "400" | "500" | "600" | "700"
+  categoryPillTextTransform: null,      // "none" | "uppercase" | "lowercase" | "titlecase"
+  categoryPillLayout       : "row",     // "row" (single line) | "stack" (vertical)
+  categoryPillPosition     : "top-right", // "top-left" | "top-right" | "bottom-left" | "bottom-right"
   categoryPillInset        : null,      // "12px"  gap from card edges
   categoryPillGap          : null,      // "6px"   gap between pills
   categoryPillRadius       : null,      // "99px"  pill corner radius
@@ -161,14 +171,12 @@ window.SQPSBLOGConfig = {
   categoryPillBorderColor  : null,      // "#171717"
 
 // ── FILTER BAR STYLING ───────────────────────
-  filterBarBg              : null,      // "#ffffff"
+  filterBarBg              : null,      // "#ffffff" (also fixes mobile dropdown bg)
   filterBarBorder          : null,      // "#e5e5e5"
-//  filterBarTextColor: color of labels, dropdowns, sort, reset
+  filterBarSize            : null,      // "13px"
   filterBarTextColor       : null,      // "#111111"
-//  filterBarPlaceholderColor: color of the "Search posts…" placeholder text
   filterBarPlaceholderColor: null,      // "#aaaaaa"
-//  filterBarTextTransform: "none" | "uppercase" | "lowercase" | "titlecase"
-  filterBarTextTransform   : null,
+  filterBarTextTransform   : null,      // "none" | "uppercase" | "lowercase" | "titlecase"
 
 // ── CARD BODY PADDING ────────────────────────
   cardBodyPadding          : null,      // "18px 22px"
@@ -176,4 +184,4 @@ window.SQPSBLOGConfig = {
 };
 </script>
 
-<script src="https://cdn.jsdelivr.net/gh/ashlyleh/ss-assets@main/pf-core.js?v=3" defer></script>
+<script src="https://cdn.jsdelivr.net/gh/ashlyleh/ss-assets@main/pf-core.js" defer></script>
