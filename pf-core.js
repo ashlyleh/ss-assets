@@ -155,9 +155,7 @@
   };
   var anyMetaPos = metaPositions.readTime || metaPositions.author || metaPositions.date;
   if (anyMetaPos) {
-    // Card body needs relative positioning for absolute children
     overrides.push(".sqpsblog-card-body { position: relative !important; }");
-    // Hide empty containers if their children are repositioned
     if (metaPositions.readTime) {
       overrides.push(".sqpsblog-card-meta { display: none !important; }");
     }
@@ -165,7 +163,6 @@
     if (footerMoved) {
       overrides.push(".sqpsblog-card-footer { display: none !important; }");
     }
-
     var posMap = {
       "top-left":     "top: 0; left: 0;",
       "top-right":    "top: 0; right: 0;",
@@ -184,7 +181,6 @@
         overrides.push(
           selMap[mk] + " { position: absolute !important; " + posMap[mp] + " margin: 0 !important; padding: 4px 0 !important; z-index: 2; }"
         );
-        // If placing at bottom, add padding to card-body so content doesn't overlap
         if (needsBottom) {
           overrides.push(".sqpsblog-card-bottom { padding-bottom: 28px !important; }");
         }
@@ -217,7 +213,7 @@
     // Newsroom secondary split card (:nth-child(2)) and standard cards (:nth-child(n+3)) — not overlay
     overrides.push("[data-layout=\"newsroom\"] .sqpsblog-card-newsroom:nth-child(2) .sqpsblog-card-cta { " + ctaBlock + " !important; }");
     overrides.push("[data-layout=\"newsroom\"] .sqpsblog-card-newsroom:nth-child(n+3) .sqpsblog-card-cta { " + ctaBlock + " !important; }");
-    // Newsroom hero (:nth-child(1)), mosaic pill, and standalone hero intentionally excluded — white-on-dark styles remain
+    // Newsroom hero (:nth-child(1)), mosaic pill, and standalone hero intentionally excluded
   }
 
   // CTA alignment — applies globally across all layouts
@@ -258,22 +254,20 @@
       var ptx = cfg["categoryPillTextTransform"];
       pillRules.push("text-transform: " + (ptx === "titlecase" ? "capitalize" : ptx));
     }
-    // Apply to both regular and mosaic pill variants
     overrides.push(".sqpsblog-card-cat-pill { " + pillRules.join("; ") + " !important; }");
     overrides.push(".sqpsblog-card-cat-pill--mosaic { " + pillRules.join("; ") + " !important; }");
   }
 
-  // Pill container layout + position (applies whenever count > 1 OR position/layout set)
+  // Pill container layout + position
   var multiPill = cfg["categoryPillCount"] && cfg["categoryPillCount"] !== 1;
   if (multiPill || val("categoryPillPosition") || val("categoryPillLayout")) {
-    var pos = cfg["categoryPillPosition"] || "top-right";
-    var layout = cfg["categoryPillLayout"] || "row";
-    var vert = pos.indexOf("top") === 0 ? "flex-start" : "flex-end";
-    var horiz = pos.indexOf("left") !== -1 ? "flex-start" : "flex-end";
-    var dir = layout === "stack" ? "column" : "row";
-    var gap = val("categoryPillGap") || "6px";
-    // Inset padding so pills don't touch the card edges
-    var inset = val("categoryPillInset") || "12px";
+    var pos    = cfg["categoryPillPosition"] || "top-right";
+    var layout = cfg["categoryPillLayout"]   || "row";
+    var vert   = pos.indexOf("top")  === 0   ? "flex-start" : "flex-end";
+    var horiz  = pos.indexOf("left") !== -1  ? "flex-start" : "flex-end";
+    var dir    = layout === "stack"           ? "column"     : "row";
+    var gap    = val("categoryPillGap")   || "6px";
+    var inset  = val("categoryPillInset") || "12px";
     overrides.push(
       ".sqpsblog-card-img { display: flex !important; flex-direction: " + dir + " !important; flex-wrap: " + (layout === "stack" ? "nowrap" : "wrap") + " !important; align-items: " + horiz + " !important; justify-content: " + vert + " !important; gap: " + gap + " !important; padding: " + inset + " !important; box-sizing: border-box; }",
       ".sqpsblog-card-img img { position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; z-index: 0; }",
@@ -288,7 +282,6 @@
     if (val("filterBarBg"))     barRules.push("background: var(--sqpsblog-bar-bg)");
     if (val("filterBarBorder")) barRules.push("border-color: var(--sqpsblog-bar-border)");
     overrides.push(".sqpsblog-filter-bar { " + barRules.join("; ") + " !important; }");
-    // Mobile dropdown panels + accordion headers share the bar background
     if (val("filterBarBg")) {
       overrides.push(
         ".sqpsblog-mob-acc-header { background: var(--sqpsblog-bar-bg) !important; }",
@@ -311,7 +304,7 @@
     }
   }
 
-  // Filter bar text color — search input, dropdowns, sort, labels
+  // Filter bar text color
   if (val("filterBarTextColor")) {
     overrides.push(
       ".sqpsblog-search      { color: var(--sqpsblog-bar-text-color) !important; }",
@@ -322,16 +315,16 @@
     );
   }
 
-  // Filter bar placeholder color (search "Search posts…" text)
+  // Filter bar placeholder color
   if (val("filterBarPlaceholderColor")) {
     overrides.push(
       ".sqpsblog-search::placeholder { color: var(--sqpsblog-placeholder-color) !important; opacity: 1 !important; }"
     );
   }
 
-  // Filter bar text transform — affects labels, dropdown text, sort, search placeholder
+  // Filter bar text transform
   if (val("filterBarTextTransform")) {
-    var ftx = cfg["filterBarTextTransform"];
+    var ftx    = cfg["filterBarTextTransform"];
     var ftxVal = ftx === "titlecase" ? "capitalize" : ftx;
     overrides.push(
       ".sqpsblog-search::placeholder { text-transform: " + ftxVal + " !important; }",
